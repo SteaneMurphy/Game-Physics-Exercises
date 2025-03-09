@@ -8,6 +8,7 @@ public class Plane : MonoBehaviour
     public float width;
     public float length;
     public Vector3 planeNormal;
+    public float planeScalar;
 
 
     void Start()
@@ -47,5 +48,12 @@ public class Plane : MonoBehaviour
         lineRenderer.positionCount = 2;
         lineRenderer.SetPosition(0, transform.position);
         lineRenderer.SetPosition(1, planeNormal);
+
+        SetPlaneScalar(p1);
+    }
+
+    private void SetPlaneScalar(Vector3 p1) 
+    {
+        planeScalar = -Vector3.Dot(planeNormal, p1);
     }
 }
