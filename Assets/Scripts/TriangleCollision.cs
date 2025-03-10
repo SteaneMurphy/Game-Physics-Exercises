@@ -59,48 +59,32 @@ public class TriangleCollision : MonoBehaviour
         Vector3 ray3 = vertice1 - vertice3;
 
         //solve for t in plane equation
-        (bool, float) ray1intersect = SolveForT(vertice1, ray1);
-        (bool, float) ray2intersect = SolveForT(vertice2, ray2);
-        (bool, float) ray3intersect = SolveForT(vertice3, ray3);
+        float ray1intersect = SolveForT(vertice1, ray1);
+        float ray2intersect = SolveForT(vertice2, ray2);
+        float ray3intersect = SolveForT(vertice3, ray3);
 
-        if (ray1intersect.Item1) 
-        {
-            print($"Intersection point: {CalculateIntersectionPoint(ray1intersect.Item2, vertice1, ray1)}");
-        }
-
-        if (ray2intersect.Item1) 
-        {
-            print($"Intersection point: {CalculateIntersectionPoint(ray2intersect.Item2, vertice2, ray2)}");
-        }
-
-        if (ray3intersect.Item1) 
-        {
-            print($"Intersection point: {CalculateIntersectionPoint(ray3intersect.Item2, vertice3, ray3)}");
-        }
+        CalculateIntersectionPoint(ray1intersect, vertice1, ray1);
+        CalculateIntersectionPoint(ray2intersect, vertice2, ray2);
+        CalculateIntersectionPoint(ray3intersect, vertice3, ray3);
     }
 
-    private bool SolveForT(Vector3 startPosition, Vector3 ray) 
+    private float SolveForT(Vector3 startPosition, Vector3 ray) 
     {
-        float t = -((plane.planeNormal.x * startPosition.x) + (plane.planeNormal.y * startPosition.y) + (plane.planeNormal.z * startPosition.z) + plane.planeScalar)
+        return -((plane.planeNormal.x * startPosition.x) + (plane.planeNormal.y * startPosition.y) + (plane.planeNormal.z * startPosition.z) + plane.planeScalar)
                     / ((plane.planeNormal.x * ray.x) + (plane.planeNormal.y * ray.y) + (plane.planeNormal.z * ray.z));
+    }
 
+    private void CalculateIntersectionPoint(float t, Vector3 startPosition, Vector3 ray)
+    {
         //if t is less than 0 or greater than 1, no intersection
         if (t < 0 || t > 1)
         {
-            return false;
+            return;
         }
         else if (t > 0 || t < 1)
         {
-            return true;
+            print($"Triangle intersects plane at: {startPosition + t * ray}");
         }
-        else
-        {
-            return false;
-        }
-    }
-
-    private Vector3 CalculateIntersectionPoint(float t, Vector3 startPosition, Vector3 ray)
-    {
-        return startPosition + t * ray;
+        return;
     }
 }

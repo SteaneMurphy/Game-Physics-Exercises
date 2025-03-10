@@ -339,9 +339,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c3900f5d2b7efc4dbbc710a7acb8044, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vertice1: {x: 0, y: 0, z: 0}
-  vertice2: {x: 1, y: 0, z: 0}
-  vertice3: {x: 0, y: 1, z: 0}
+  vertice1: {x: 1, y: 1, z: 1}
+  vertice2: {x: 2, y: 1, z: 1}
+  vertice3: {x: 1, y: 2, z: 1}
   plane: {fileID: 1725335163}
 --- !u!1 &1445977457
 GameObject:
