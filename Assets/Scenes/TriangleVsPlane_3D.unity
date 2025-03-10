@@ -342,6 +342,7 @@ MonoBehaviour:
   vertice1: {x: 0, y: 0, z: 0}
   vertice2: {x: 1, y: 0, z: 0}
   vertice3: {x: 0, y: 1, z: 0}
+  plane: {fileID: 1725335163}
 --- !u!1 &1445977457
 GameObject:
   m_ObjectHideFlags: 0

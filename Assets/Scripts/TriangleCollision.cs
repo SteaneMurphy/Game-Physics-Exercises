@@ -6,6 +6,7 @@ public class TriangleCollision : MonoBehaviour
     public Vector3 vertice1;
     public Vector3 vertice2;
     public Vector3 vertice3;
+    public Plane plane;
 
 
     void Start()
@@ -13,10 +14,10 @@ public class TriangleCollision : MonoBehaviour
         mesh = new Mesh();
     }
 
-    // Update is called once per frame
     void Update()
     {
         DrawTriangle();
+        CheckForIntersection();
     }
 
     private void DrawTriangle ()
@@ -47,6 +48,59 @@ public class TriangleCollision : MonoBehaviour
 
         MeshFilter meshFilter = GetComponent<MeshFilter>();
         meshFilter.mesh = mesh;
+    }
 
+    private void CheckForIntersection() 
+    {
+        //create three vectors that make up the triangle and test
+        //each ray against an intersection against the plane
+        Vector3 ray1 = vertice2 - vertice1;
+        Vector3 ray2 = vertice3 - vertice2;
+        Vector3 ray3 = vertice1 - vertice3;
+
+        //solve for t in plane equation
+        (bool, float) ray1intersect = SolveForT(vertice1, ray1);
+        (bool, float) ray2intersect = SolveForT(vertice2, ray2);
+        (bool, float) ray3intersect = SolveForT(vertice3, ray3);
+
+        if (ray1intersect.Item1) 
+        {
+            print($"Intersection point: {CalculateIntersectionPoint(ray1intersect.Item2, vertice1, ray1)}");
+        }
+
+        if (ray2intersect.Item1) 
+        {
+            print($"Intersection point: {CalculateIntersectionPoint(ray2intersect.Item2, vertice2, ray2)}");
+        }
+
+        if (ray3intersect.Item1) 
+        {
+            print($"Intersection point: {CalculateIntersectionPoint(ray3intersect.Item2, vertice3, ray3)}");
+        }
+    }
+
+    private bool SolveForT(Vector3 startPosition, Vector3 ray) 
+    {
+        float t = -((plane.planeNormal.x * startPosition.x) + (plane.planeNormal.y * startPosition.y) + (plane.planeNormal.z * startPosition.z) + plane.planeScalar)
+                    / ((plane.planeNormal.x * ray.x) + (plane.planeNormal.y * ray.y) + (plane.planeNormal.z * ray.z));
+
+        //if t is less than 0 or greater than 1, no intersection
+        if (t < 0 || t > 1)
+        {
+            return false;
+        }
+        else if (t > 0 || t < 1)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    private Vector3 CalculateIntersectionPoint(float t, Vector3 startPosition, Vector3 ray)
+    {
+        return startPosition + t * ray;
     }
 }
